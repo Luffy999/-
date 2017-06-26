@@ -21,7 +21,7 @@ def get_img(url):
     for img_url in img_urls:
         # 拼接成高清图片的链接
         img_src='http://www.ikea.com'+img_url['src'][:-19]+img_url['src'][-13:]
-        # 保存图片
+        # 保存图片，需要新建名为'picture_1'的文件夹
         with open('picture_1/'+img_url['title']+'.jpg','wb') as f:
             f.write(requests.get(img_src).content)
 

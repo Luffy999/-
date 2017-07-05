@@ -11,6 +11,7 @@ import mysql.connector
 import time
 import requests
 import re
+import traceback
 
 # 使用无头浏览器获取URL
 def url_get(page_down,page,URLnumber,url):
@@ -22,25 +23,33 @@ def url_get(page_down,page,URLnumber,url):
     # driver.switch_to.frame('ifArticleList')
     while page_down <= page:
         print u'正在爬取第 -' + str(page_down) + u'- 页'
-        driver.implicitly_wait(5)
-        # 出错后重新获取该页内容
-        try:
-            for i in range(1, URLnumber + 1):
-                # 逐条获取页面URL
-                url_get = driver.find_element_by_css_selector('#ajaxElement_2 > ul > li:nth-child(%d) > a' % i).get_attribute('href')
-                # 简单的查重，只限于当次任务
-                if url_get[-12:] not in url_get_list:
-                    url_get_list.append(url_get[-12:])
-                    time.sleep(0.5)
-                    # 获取信息并导入数据库
-                    title,ctime,content = information_get(url_get)
-                    database_connect(title,ctime,content)
-            page_down = page_down + 1 #页数加1
-        except:
-            pass
         # 翻页
+        driver.implicitly_wait(5)
         driver.find_element_by_css_selector(
             '#ajaxElement_2 > table > tbody > tr > td > select > option:nth-child(' + str(page_down) + ')').click()
+        driver.implicitly_wait(5)
+        for i in range(40, URLnumber + 1):
+           # 逐条获取页面URL
+            try:
+               url_get = driver.find_element_by_css_selector('#ajaxElement_2 > ul > li:nth-child(%d) > a' % i).get_attribute('href')
+            except Exception,e:
+                if 'no such element' in str(e):
+                    break
+                else:
+                    print e
+                    pass
+            # 简单的查重，限当次任务
+            if url_get[-12:] not in url_get_list:
+                url_get_list.append(url_get[-12:])
+                time.sleep(0.5)
+                try:
+                     # 获取信息并导入数据库
+                     title,ctime,content = information_get(url_get)
+                     database_connect(title,ctime,content)
+                except:
+                    pass
+        page_down = page_down + 1 #页数加1
+
 
 # 获取标题、时间、内容
 def information_get(url):
@@ -61,15 +70,12 @@ def database_connect(title,ctime,content):
     )
     cursor = conn.cursor()
     # 尝试导入数据，如数据已经存在则跳过
-    try:
-        cursor.execute('insert into 广西_南宁_青秀_政府办_政务动态'
+    cursor.execute('insert into 广西_南宁_青秀_政府办_test'
                    '(title,time,content) values (%s,%s,%s)',[title,ctime,content])
-    except:
-        pass
     cursor.close()
     conn.commit()
     conn.close()
 
 if __name__ == '__main__':
-    url = 'http://www.qingxiu.gov.cn/utils/search.html?word=&channelID=13125#Channel_more'
-    url_get(1,67,60,url) # 参数以此为起始页数、总页数、每个页面内URL数量、起始页的URL
+    url = 'http://www.qingxiu.gov.cn/utils/search.html?word=&channelID=13672#Channel_more'
+    url_get(3,3,60,url) # 参数以此为起始页数、总页数、每个页面内URL数量、起始页的URL

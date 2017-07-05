@@ -28,7 +28,7 @@ def url_get(page_down,page,URLnumber,url):
         driver.find_element_by_css_selector(
             '#ajaxElement_2 > table > tbody > tr > td > select > option:nth-child(' + str(page_down) + ')').click()
         driver.implicitly_wait(5)
-        for i in range(40, URLnumber + 1):
+        for i in range(1, URLnumber + 1):
            # 逐条获取页面URL
             try:
                url_get = driver.find_element_by_css_selector('#ajaxElement_2 > ul > li:nth-child(%d) > a' % i).get_attribute('href')
@@ -78,4 +78,4 @@ def database_connect(title,ctime,content):
 
 if __name__ == '__main__':
     url = 'http://www.qingxiu.gov.cn/utils/search.html?word=&channelID=13672#Channel_more'
-    url_get(3,3,60,url) # 参数以此为起始页数、总页数、每个页面内URL数量、起始页的URL
+    url_get(1,3,60,url) # 参数以此为起始页数、总页数、每个页面内URL数量、起始页的URL

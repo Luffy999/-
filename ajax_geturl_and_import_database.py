@@ -63,10 +63,10 @@ def information_get(url):
 # 连接数据库并导入数据
 def database_connect(title,ctime,content):
     conn = mysql.connector.connect(
-        host = 'localhost',
-        user = 'root',# 用户名
-        password = 'root',# 密码
-        database = 'article_url'# 数据库名称
+        host = 'host',
+        user = 'user',# 用户名
+        password = 'password',# 密码
+        database = 'database'# 数据库名称
     )
     cursor = conn.cursor()
     # 尝试导入数据，如数据已经存在则跳过

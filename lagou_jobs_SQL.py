@@ -4,9 +4,9 @@ import mysql.connector
 conn = mysql.connector.connect(
     host='localhost',
     port=3306,
-    user='luffy',
-    password='123456',
-    database='movie',
+    user='******',
+    password='******',
+    database='******',
 )
 cursor = conn.cursor()
 cursor.execute('create table lagou_jobs_python数据 '

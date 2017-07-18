@@ -15,7 +15,6 @@ import traceback
 
 # 使用无头浏览器获取URL
 def url_get(page_down,page,URLnumber,url):
-    url_get_list = []
     # 启动无头浏览器
     driver = webdriver.Chrome(executable_path='******') # 浏览器名称和路径
     driver.get(url)
@@ -24,7 +23,6 @@ def url_get(page_down,page,URLnumber,url):
     while page_down <= page:
         print u'正在爬取第 -' + str(page_down) + u'- 页'
         # 翻页
-        driver.implicitly_wait(5)
         driver.find_element_by_css_selector(
             '#ajaxElement_2 > table > tbody > tr > td > select > option:nth-child(' + str(page_down) + ')').click()
         driver.implicitly_wait(5)
@@ -33,21 +31,17 @@ def url_get(page_down,page,URLnumber,url):
             try:
                url_get = driver.find_element_by_css_selector('#ajaxElement_2 > ul > li:nth-child(%d) > a' % i).get_attribute('href')
             except Exception,e:
+                print e
                 if 'no such element' in str(e):
                     break
                 else:
-                    print e
                     pass
-            # 简单的查重，限当次任务
-            if url_get[-12:] not in url_get_list:
-                url_get_list.append(url_get[-12:])
-                time.sleep(0.5)
-                try:
-                     # 获取信息并导入数据库
-                     title,ctime,content = information_get(url_get)
-                     database_connect(title,ctime,content)
-                except:
-                    pass
+            try:
+                # 获取信息并导入数据库
+                title,ctime,content = information_get(url_get)
+                database_connect(title,ctime,content)
+            except:
+                pass
         page_down = page_down + 1 #页数加1
 
 
@@ -78,4 +72,4 @@ def database_connect(title,ctime,content):
 
 if __name__ == '__main__':
     url = 'http://www.qingxiu.gov.cn/utils/search.html?word=&channelID=13672#Channel_more'
-    url_get(1,3,60,url) # 参数以此为起始页数、总页数、每个页面内URL数量、起始页的URL
+    url_get(1,3,60,url) # 参数依次为起始页数、总页数、每个页面内URL数量、起始页的URL

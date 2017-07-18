@@ -61,9 +61,9 @@ def movie_details(movie_url):
 def database_connect(name,year,director,screenwriter,actor,genre,area,mins,rating_num,rating_poeple,rating_5,rating_4,rating_3,rating_2,rating_1,betterthan):
     conn = mysql.connector.connect(
         host = 'localhost',
-        user = 'luffy',# 用户名
-        password = '123456',# 密码
-        database = 'movie'# 数据库名称
+        user = '******',# 用户名
+        password = '******',# 密码
+        database = '******'# 数据库名称
     )
     cursor = conn.cursor()
     # 尝试导入数据，如数据已经存在则跳过

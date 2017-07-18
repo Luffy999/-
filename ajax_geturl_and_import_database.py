@@ -17,7 +17,7 @@ import traceback
 def url_get(page_down,page,URLnumber,url):
     url_get_list = []
     # 启动无头浏览器
-    driver = webdriver.Chrome(executable_path='E:/chromedriver.exe') # 浏览器名称和路径
+    driver = webdriver.Chrome(executable_path='******') # 浏览器名称和路径
     driver.get(url)
     # 路径搜索不到时需要定位frame
     # driver.switch_to.frame('ifArticleList')
@@ -64,9 +64,9 @@ def information_get(url):
 def database_connect(title,ctime,content):
     conn = mysql.connector.connect(
         host = 'host',
-        user = 'user',# 用户名
-        password = 'password',# 密码
-        database = 'database'# 数据库名称
+        user = '******',# 用户名
+        password = '******',# 密码
+        database = '******'# 数据库名称
     )
     cursor = conn.cursor()
     # 尝试导入数据，如数据已经存在则跳过

@@ -3,12 +3,12 @@ from email.mime.text import MIMEText
 import time
 
 # 输入Email地址和口令:
-from_addr = 'luffy@datassis.com'
-password = '1107AAAaaa'
+from_addr = '******'
+password = '******'
 # 输入SMTP服务器地址:
-smtp_server = 'smtp.mxhichina.com'
+smtp_server = '******'
 # 输入收件人地址:
-to_addr = ['177868532@qq.com']
+to_addr = ['******']
 msg = MIMEText('hello, send by Python...内容', 'plain', 'utf-8')
 msg['Subject'] = time.ctime()
 msg['From'] = u"机票价格爬虫" + "<" + from_addr + ">"

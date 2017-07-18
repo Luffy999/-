@@ -4,9 +4,9 @@ import mysql.connector
 conn = mysql.connector.connect(
     host='localhost',
     port=3306,
-    user='root',
-    password='root',
-    database='article_url',
+    user='******',
+    password='******',
+    database='******',
 )
 cursor = conn.cursor()
 cursor.execute('create table doubanmovie_TOP250 '
